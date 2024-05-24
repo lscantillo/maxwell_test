@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # $ ruby price_calculator.rb
 # Please enter all the items purchased separated by a comma
 # milk,milk, bread,banana,bread,bread,bread,milk,apple
@@ -35,3 +37,8 @@ ITEMS = {
       }
     }
   }.freeze
+
+
+  puts 'Please enter all the items purchased separated by a comma'
+  input = gets.chomp
+  items = input.split(',').map(&:strip).map(&:downcase).tally
