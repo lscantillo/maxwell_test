@@ -25,6 +25,16 @@ module GroceryItems
   }.freeze
 end
 
+module Validator
+  ITEM_PATTERN = /^\s*[a-zA-Z]+(\s*[a-zA-Z]+)*(\s*,\s*[a-zA-Z]+(\s*[a-zA-Z]+)*)*\s*$/
+
+  def self.validate_input(input)
+    unless Validator::ITEM_PATTERN.match?(input)
+      raise ArgumentError, "Invalid input. Please enter items separated by commas, e.g., 'milk, bread, banana, apple'."
+    end
+  end
+end
+
 class GroceryShop
 
   def initialize(cart_items)
@@ -86,9 +96,14 @@ class GroceryShop
 
 end
 
-puts 'Please enter all the items purchased separated by a comma'
-input = gets.chomp
-items = input.split(',').map(&:strip).map(&:downcase).tally
+begin
+  puts 'Please enter all the items purchased separated by a comma'
+  input = gets.chomp
+  Validator.validate_input(input)
+  items = input.split(',').map(&:strip).map(&:downcase).tally
 
-cart = GroceryShop.new(items)
-cart.call
+  cart = GroceryShop.new(items)
+  cart.call
+rescue ArgumentError => e
+  puts e.message
+end
