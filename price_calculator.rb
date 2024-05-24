@@ -14,8 +14,8 @@
 # Total price : $19.02
 # You saved $3.45 today.
 
-
-ITEMS = {
+module GroceryItems
+  ITEMS = {
     'apple' => {
       price: 0.89
     },
@@ -37,8 +37,41 @@ ITEMS = {
       }
     }
   }.freeze
+end
 
 
-  puts 'Please enter all the items purchased separated by a comma'
-  input = gets.chomp
-  items = input.split(',').map(&:strip).map(&:downcase).tally
+class GroceryShop
+
+  def initialize(cart_items)
+    @items = GroceryItems::ITEMS
+    @shopping_cart = cart_items
+  end
+
+  def calculate_item_cost(item, quantity)
+
+
+  end
+
+  def print
+    total_cost = 0.0
+    total_savings = 0.0
+
+    puts 'Item     Quantity      Price'
+    puts '--------------------------------------'
+
+    @shopping_cart.each do |item, quantity|
+      total_price, savings = calculate_item_cost(item, quantity)
+      total_cost += total_price
+      total_savings += savings
+
+    end
+  end
+
+end
+
+puts 'Please enter all the items purchased separated by a comma'
+input = gets.chomp
+items = input.split(',').map(&:strip).map(&:downcase).tally
+
+cart = GroceryShop.new(items)
+cart.print_receipt
