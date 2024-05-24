@@ -12,3 +12,26 @@
 # Total price : $19.02
 # You saved $3.45 today.
 
+
+ITEMS = {
+    'apple' => {
+      price: 0.89
+    },
+    'banana' => {
+      price: 0.99
+    },
+    'bread' => {
+      price: 2.17,
+      sale: {
+        quantity: 3,
+        price: 6.00
+      }
+    },
+    'milk' => {
+      price: 3.97,
+      sale: {
+        quantity: 2,
+        price: 5.00
+      }
+    }
+  }.freeze
