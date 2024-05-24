@@ -39,7 +39,6 @@ module GroceryItems
   }.freeze
 end
 
-
 class GroceryShop
 
   def initialize(cart_items)
@@ -48,8 +47,22 @@ class GroceryShop
   end
 
   def calculate_item_cost(item, quantity)
+    item_info = @items[item]
+    unit_price = item_info[:price]
+    sale_quantity = item_info[:sale][:quantity] if item_info[:sale]
+    sale_price = item_info[:sale][:price]   if item_info[:sale]
 
+    if sale_quantity && sale_price
+      sale_sets = quantity / sale_quantity
+      remaining = quantity % sale_quantity
+      total_price = (sale_sets * sale_price) + (remaining * unit_price)
+      savings = (quantity * unit_price) - total_price
+    else
+      total_price = quantity * unit_price
+      savings = 0.0
+    end
 
+    [total_price, savings]
   end
 
   def print
@@ -64,6 +77,7 @@ class GroceryShop
       total_cost += total_price
       total_savings += savings
 
+      puts "#{item.capitalize.ljust(9)} #{quantity.to_s.ljust(12)} $#{'%.2f' % total_price}"
     end
   end
 
@@ -74,4 +88,4 @@ input = gets.chomp
 items = input.split(',').map(&:strip).map(&:downcase).tally
 
 cart = GroceryShop.new(items)
-cart.print_receipt
+cart.print
