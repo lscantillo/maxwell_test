@@ -1,19 +1,5 @@
 # frozen_string_literal: true
 
-# $ ruby price_calculator.rb
-# Please enter all the items purchased separated by a comma
-# milk,milk, bread,banana,bread,bread,bread,milk,apple
-
-# Item     Quantity      Price
-# --------------------------------------
-# Milk      3            $8.97
-# Bread     4            $8.17
-# Apple     1            $0.89
-# Banana    1            $0.99
-
-# Total price : $19.02
-# You saved $3.45 today.
-
 module GroceryItems
   ITEMS = {
     'apple' => {
@@ -44,7 +30,25 @@ class GroceryShop
   def initialize(cart_items)
     @items = GroceryItems::ITEMS
     @shopping_cart = cart_items
+    @total_cost = 0.0
+    @total_savings = 0.0
   end
+
+  def print
+    header_labels
+
+    @shopping_cart.each do |item, quantity|
+      total_price, savings = calculate_item_cost(item, quantity)
+      @total_cost += total_price
+      @total_savings += savings
+
+      puts "#{item.capitalize.ljust(9)} #{quantity.to_s.ljust(12)} $#{'%.2f' % total_price}"
+    end
+
+    footer_labels
+  end
+
+  private
 
   def calculate_item_cost(item, quantity)
     item_info = @items[item]
@@ -66,27 +70,16 @@ class GroceryShop
     [total_price, savings]
   end
 
-  def print
-    total_cost = 0.0
-    total_savings = 0.0
-
+  def header_labels
+    puts "\n"
     puts 'Item     Quantity      Price'
     puts '--------------------------------------'
-
-    @shopping_cart.each do |item, quantity|
-      total_price, savings = calculate_item_cost(item, quantity)
-      total_cost += total_price
-      total_savings += savings
-
-      puts "#{item.capitalize.ljust(9)} #{quantity.to_s.ljust(12)} $#{'%.2f' % total_price}"
-    end
-
-    footer_labels(total_cost, total_savings)
   end
 
-  def footer_labels(total_cost, total_savings)
-    puts "\nTotal price : $#{'%.2f' % total_cost}"
-    puts "You saved $#{'%.2f' % total_savings} today."
+
+  def footer_labels
+    puts "\nTotal price : $#{'%.2f' % @total_cost}"
+    puts "You saved $#{'%.2f' % @total_savings} today."
   end
 
 end
