@@ -29,7 +29,7 @@ module Validator
   ITEM_PATTERN = /^\s*[a-zA-Z]+(\s*[a-zA-Z]+)*(\s*,\s*[a-zA-Z]+(\s*[a-zA-Z]+)*)*\s*$/
 
   def self.validate_input(input)
-    unless Validator::ITEM_PATTERN.match?(input)
+    unless ITEM_PATTERN.match?(input)
       raise ArgumentError, "Invalid input. Please enter items separated by commas, e.g., 'milk, bread, banana, apple'."
     end
   end
@@ -106,4 +106,6 @@ begin
   cart.call
 rescue ArgumentError => e
   puts e.message
+rescue StandardError => e
+  puts "An error occurred: #{e.message}"
 end
