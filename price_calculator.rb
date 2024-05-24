@@ -62,10 +62,10 @@ class GroceryShop
       sale_quantity = item_info[:sale][:quantity]
       sale_price = item_info[:sale][:price]
 
-      discount_sets = quantity / sale_quantity
+      discount_packs = quantity / sale_quantity
       remaining = quantity % sale_quantity
 
-      total_price = (discount_sets * sale_price) + (remaining * unit_price)
+      total_price = (discount_packs * sale_price) + (remaining * unit_price)
       savings = (quantity * unit_price) - total_price
     end
 
