@@ -34,9 +34,15 @@ class GroceryShop
     @total_savings = 0.0
   end
 
-  def print
+  def call
     header_labels
+    print
+    footer_labels
+  end
 
+  private
+
+  def print
     @shopping_cart.each do |item, quantity|
       total_price, savings = calculate_item_cost(item, quantity)
       @total_cost += total_price
@@ -44,11 +50,7 @@ class GroceryShop
 
       puts "#{item.capitalize.ljust(9)} #{quantity.to_s.ljust(12)} $#{'%.2f' % total_price}"
     end
-
-    footer_labels
   end
-
-  private
 
   def calculate_item_cost(item, quantity)
     item_info = @items[item]
@@ -89,4 +91,4 @@ input = gets.chomp
 items = input.split(',').map(&:strip).map(&:downcase).tally
 
 cart = GroceryShop.new(items)
-cart.print
+cart.call
