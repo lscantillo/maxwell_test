@@ -79,6 +79,9 @@ class GroceryShop
 
       puts "#{item.capitalize.ljust(9)} #{quantity.to_s.ljust(12)} $#{'%.2f' % total_price}"
     end
+
+    puts "\nTotal price : $#{'%.2f' % total_cost}"
+    puts "You saved $#{'%.2f' % total_savings} today."
   end
 
 end
